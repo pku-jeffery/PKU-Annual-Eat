@@ -2,6 +2,8 @@ import os
 import re
 import json
 import random
+import threading
+import webbrowser
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -165,5 +167,9 @@ def generate():
 def get_image():
     return send_file('result.png', mimetype='image/png')
 
+def open_browser():
+    webbrowser.open("http://127.0.0.1:5000")
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    threading.Timer(1, open_browser).start()
+    app.run(debug=False)
