@@ -8,7 +8,7 @@
 
 本项目是一个用于统计白鲸大学学生校园卡消费情况的脚本。通过模拟登录大学校园卡网站，获取学生的校园卡消费记录，并通过数据可视化的方式展示。
 
-本项目fork自[THU-Annual-Eat](https://github.com/leverimmy/THU-Annual-Eat)，感谢原作者的贡献。
+本项目fork自[PKU-Annual-Eat](https://github.com/KingRayCao/PKU-Annual-Eat)，借助浏览器添加了 GUI，同时增加了账号密码鉴权。
 
 ![demo](./demo.png)
 

@@ -139,7 +139,7 @@ def generate_image(use_password, account, hallticket, sdate, edate):
         
     # plt.tight_layout()
     plt.xlim(0, 1.2 * max(all_data.values() or [0]))
-    plt.title(f"兆京大学食堂消费情况\n({post_data['sdate']} 至 {post_data['edate']})")
+    plt.title(f"白鲸大学食堂消费情况\n({post_data['sdate']} 至 {post_data['edate']})")
     plt.xlabel("消费金额（元）")
     plt.text(0.8, 0.1, summary, ha='center', va='center', transform=plt.gca().transAxes)
     plt.savefig("result.png", bbox_inches='tight', dpi=300)
