@@ -34,10 +34,10 @@
 
 ### 1. 安装依赖
 
-本项目依赖于 `requests`、`matplotlib`，请确保你的 Python 环境中已经安装了这些库。
+本项目依赖于 `requests`、`matplotlib`、`flask`，请确保你的 Python 环境中已经安装了这些库。
 
 ```bash
-pip install requests matplotlib
+pip install -r requirements.txt
 ```
 
 ### 2. 运行脚本
