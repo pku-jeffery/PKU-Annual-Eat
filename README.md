@@ -12,7 +12,11 @@
 
 ![demo](./demo.png)
 
+
+
 ## 使用方法
+
+本项目使用 PyInstaller 进行了打包，可以直接在 release 中或 [北大网盘](https://disk.pku.edu.cn/link/AA79CD6D47E40D42E38CA4D93BBE98F5A1) 中下载 exe 文件使用。你也可以直接运行源代码。
 
 ### 0. 获取account和hallticket
 

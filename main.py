@@ -146,10 +146,181 @@ def generate_image(use_password, account, hallticket, sdate, edate):
     # plt.show()
     return True
 
+
+index_html = '''
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食堂消费统计</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            background-color: #003f7f;
+        }
+    </style>
+    <script>
+        function updateLabels() {
+            const type1 = document.getElementById('loginType').value === 'type1';
+            document.querySelector('label[for="username"]').textContent = type1 ? "账号：" : "学号：";
+            document.querySelector('label[for="password"]').textContent = type1 ? "Hallticket：" : "密码：";
+        }
+
+        function saveToCookies() {
+            document.cookie = `loginType=${document.getElementById('loginType').value}; path=/; max-age=31536000`;
+            document.cookie = `username=${document.getElementById('username').value}; path=/; max-age=31536000`;
+            document.cookie = `password=${document.getElementById('password').value}; path=/; max-age=31536000`;
+            document.cookie = `startDate=${document.getElementById('startDate').value}; path=/; max-age=31536000`;
+            document.cookie = `endDate=${document.getElementById('endDate').value}; path=/; max-age=31536000`;
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        function populateFromCookies() {
+            const loginType = getCookie('loginType');
+            const username = getCookie('username');
+            const password = getCookie('password');
+            const startDate = getCookie('startDate');
+            const endDate = getCookie('endDate');
+
+            if (loginType) document.getElementById('loginType').value = loginType;
+            if (username) document.getElementById('username').value = username;
+            if (password) document.getElementById('password').value = password;
+            if (startDate) document.getElementById('startDate').value = startDate;
+            if (endDate) document.getElementById('endDate').value = endDate;
+
+            updateLabels();
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginType').addEventListener('change', updateLabels);
+            document.querySelector('form').addEventListener('submit', saveToCookies);
+            populateFromCookies();
+        });
+    </script>
+</head>
+<body>
+    <form action="/generate" method="GET" target="_blank">
+        <h2>生成食堂消费统计</h2>
+
+        <label for="loginType">鉴权方式：</label>
+        <select id="loginType" name="loginType">
+            <option value="type1">Cookie</option>
+            <option value="type2">用户名密码</option>
+        </select>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" required>
+
+        <label for="startDate">开始日期：</label>
+        <input type="date" id="startDate" name="startDate" value="2024-01-01" required>
+
+        <label for="endDate">结束日期：</label>
+        <input type="date" id="endDate" name="endDate" value="2024-12-31" required>
+
+        <button type="submit">生成</button>
+    </form>
+</body>
+</html>
+'''
+image_html = '''
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消费情况</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .responsive-img {
+            max-width: 100vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img src="/image" alt="消费情况" class="responsive-img">
+</body>
+</html>
+'''
+
 @app.route('/', methods=['GET'])
 def input_acount_info():
-    with open('index.html', 'r', encoding='utf-8') as file:
-        return file.read()
+    # with open('index.html', 'r', encoding='utf-8') as file:
+    #     return file.read()
+    return index_html
 
 @app.route('/generate', methods=['GET'])
 def generate():
@@ -159,13 +330,14 @@ def generate():
     sdate = request.args.get('startDate', '2024-01-01')
     edate = request.args.get('endDate', '2024-12-31')
     if generate_image(use_password, account, passcode, sdate, edate):
-        with open('image.html', 'r', encoding='utf-8') as file:
-            return file.read()
+        # with open('image.html', 'r', encoding='utf-8') as file:
+        #     return file.read()
+        return image_html
     return '获取失败，请检查输入的鉴权信息是否正确，或者刷新页面重试'
 
 @app.route('/image', methods=['GET'])
 def get_image():
-    return send_file('result.png', mimetype='image/png')
+    return send_file(os.getcwd() + '/result.png', mimetype='image/png')
 
 def open_browser():
     webbrowser.open("http://127.0.0.1:5000")
